@@ -47,7 +47,7 @@
 				      <th scope="col">Start Time</th>
 				    </tr>
 				  </thead>
-				  <tbody>
+				  <tbody id="topicTableBody">
 				    <tr>
 				      <th scope="row">1</th>
 				      <td>Mark</td>
@@ -119,7 +119,7 @@
 				connections.push(obj.realtime.number_of_connections);
 				msgSendingCount.push(obj.realtime.number_of_msgs);
 				
-				topics.push(obj.topics);
+				topics = obj.topics;
 				
 				Android = parseInt(obj.platformMap.Android);
 				iOS = parseInt(obj.platformMap.iOS);
@@ -132,10 +132,13 @@
 				console.log(connections);
 				console.log(msgSendingCount);
 				
-				console.log(Android);
-				console.log(iOS);
+				console.log(topics);
+				
+				//console.log(Android);
+				//console.log(iOS);
 				
 				updateCharts();
+				updateTopicTable();
 				
 			}
 			labels.pop();
@@ -264,119 +267,6 @@
 			charts.push(connectionChart);
 			charts.push(msgSendingCountChart);
 			charts.push(platformChart);
-			
-			/*
-			charts.push(new Chart(document.getElementById("msgSizeChart"), {
-				type : 'line',
-				data : {
-					labels : labels,
-					datasets : [ {
-						data : msgSize,
-						backgroundColor : 'rgb(255,99,132,0.1)',
-						borderColor : 'rgb(255,99,132)',
-						borderWidth : 2,
-						lineTension : 0.25,
-						pointRadius : 0
-					} ]
-				},
-				options : {
-					responsive : true,
-					animation : {
-						duration : 0,
-						easing : 'linear'
-					},
-					legend : false,
-					scales : {
-						yAxes : [ {
-							ticks : {
-								min : 0,
-								max : 100000
-							}
-						} ]
-					}
-				}
-			}),
-			new Chart(document.getElementById("connectionChart"), {
-				type : 'line',
-				data : {
-					labels : labels,
-					datasets : [ {
-						data : connections,
-						backgroundColor : 'rgb(255,99,132,0.1)',
-						borderColor : 'rgb(255,99,132)',
-						borderWidth : 2,
-						lineTension : 0.25,
-						pointRadius : 0
-					} ]
-				},
-				options : {
-					responsive : true,
-					animation : {
-						duration : 0,
-						easing : 'linear'
-					},
-					legend : false,
-					scales : {
-						yAxes : [ {
-							ticks : {
-								min : 0,
-								max : 100
-							}
-						} ]
-					}
-				}
-			}),
-			new Chart(document.getElementById("msgSendingCountChart"), {
-				type : 'line',
-				data : {
-					labels : labels,
-					datasets : [ {
-						data : msgSendingCount,
-						backgroundColor : 'rgb(255,99,132,0.1)',
-						borderColor : 'rgb(255,99,132)',
-						borderWidth : 2,
-						lineTension : 0.25,
-						pointRadius : 0
-					} ]
-				},
-				options : {
-					responsive : true,
-					animation : {
-						duration : 0,
-						easing : 'linear'
-					},
-					legend : false,
-					scales : {
-						yAxes : [ {
-							ticks : {
-								min : 0,
-								max : 5000
-							}
-						} ]
-					}
-				}
-			}),
-			new Chart(document.getElementById("platformRatioChart"), {
-				type: 'doughnut',
-				data: {
-					datasets: [{
-						data: [ Android, iOS ],
-						backgroundColor: [
-							window.chartColors.green,
-							window.chartColors.blue
-						]
-					}],
-					labels: [
-						'Android',
-						'iOS'
-					]
-				},
-				options: {
-					responsive: true
-				}
-			})
-			);
-			*/
 		}
 
 		function addEmptyValues(arr, n) {
@@ -400,15 +290,32 @@
 			platformChart.update();
 			
 		}
-		
+
 		function updateTopicTable() {
+			console.log("update topic topic table");
+			
+			var topicTable = document.getElementById('topicTable');
+			var topicTableBody = document.getElementById('topicTableBody');
+			var row, cell1, cell2, cell3;
+			
+			topicTableBody.innerHTML = "";
+			
+			var rows = '';
+			
+			for(var i=0; i<topics.length; i++) {
+				rows += '<tr>';
+				rows += '<th scope="row">' + (i+1) + '</th>';
+				rows += '<td>' + topics[i].topic + '</td>';
+				rows += '<td>' + topics[i].start_date + '</td>';
+				rows += '</tr>';
+			}
+			
+			topicTableBody.innerHTML = rows;
 			
 		}
 
 		function advance() {
 			console.log("advance func");
-
-			getData();
 			
 			//updateCharts();
 			//updateTopicTable();
@@ -430,6 +337,7 @@
 		
 		window.onload = function() {
 			console.log("window.onload");
+			getData();
 			initialize();
 			advance();
 

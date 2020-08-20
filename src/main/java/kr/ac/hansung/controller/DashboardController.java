@@ -37,9 +37,7 @@ public class DashboardController {
 	
 	@RequestMapping("/")
 	public String getCurrentRealtimeData(Model model) {
-		List<Realtime> realtimes = realtimeService.getAllRealtimeData();
 		
-		model.addAttribute("realtimes", realtimes);
 		
 		return "realtimeChart";
 	}
