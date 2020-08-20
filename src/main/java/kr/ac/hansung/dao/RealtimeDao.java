@@ -23,7 +23,7 @@ public class RealtimeDao {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String hql = "from Realtime";
+		String hql = "from Realtime"; // TODO: load only last one record
 		
 		Query<Realtime> query = session.createQuery(hql, Realtime.class);
 		Realtime realtime = query.getResultList().get(query.getResultList().size()-1);
@@ -35,9 +35,7 @@ public class RealtimeDao {
 	public List<Realtime> getAllRealtimeData() {
 		Session session = sessionFactory.getCurrentSession();
 
-		String hql = "from Realtime";
-
-		Query<Realtime> query = session.createQuery(hql, Realtime.class);
+		Query<Realtime> query = session.createQuery("from Realtime", Realtime.class);
 
 		return  query.getResultList();
 	}

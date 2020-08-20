@@ -1,13 +1,14 @@
 package kr.ac.hansung.dao;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,12 +24,34 @@ public class ClientDao {
 	public List<Client> getClients() {
 		Session session = sessionFactory.getCurrentSession();
 		
-		Query query = session.createQuery("FROM client", Client.class);
+		Query<Client> query = session.createQuery("from Client", Client.class);
+		
+		return query.getResultList();
+	}
+	
+	public Map<String, Integer> getPlatforms() {
+		
+		int android = 0;
+		int iOS = 0;
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query<Client> query = session.createQuery("from Client", Client.class);
+		
 		List<Client> clients = query.getResultList();
 		
-		System.out.println("*** " + clients.toString());
+		for(Client c : clients) {
+			if(c.getPlatform().equals("Android"))
+				android++;
+			else
+				iOS++;
+		}
 		
-		return clients;
+		Map<String, Integer> platformMap = new HashMap<String, Integer>();
+		
+		platformMap.put("Android", android);
+		platformMap.put("iOS", iOS);
+		
+		return platformMap;
 	}
 
 }
