@@ -15,6 +15,15 @@
 		-webkit-user-select: none;
 		-ms-user-select: none;
 	}
+	
+	#table-wrapper          { overflow-y: auto; height: 300px; }
+	#table-wrapper thead th { position: sticky; top: 0; }
+
+	/* Just common table stuff. Really. */
+	table  { border-collapse: collapse; width: 100%; }
+	th, td { padding: 8px 16px; }
+
+	
 	</style>
 
 <div class="container-wrapper"> <!-- top margin 80px -->
@@ -38,7 +47,7 @@
 	<div class="container-fluid">	
 		<div class="row">
 		
-			<div class="col-8">
+			<div class="col-8" id="table-wrapper">
 				<table id="topicTable" class="table table-hover">
 				  <thead>
 				    <tr>
@@ -141,15 +150,15 @@
 				updateTopicTable();
 				
 			}
-			labels.pop();
+			// labels.pop();
 
-			labels.push(moment(new Date()).format('YYYY MM DD HH:mm:ss'));
+			// labels.push(moment(new Date()).format('YYYY MM DD HH:mm:ss'));
 		}
 
 		// chart 배열 초기화
 		function initialize() {
 			console.log("chart initialize");
-
+			
 			msgSizeChart = new Chart(document.getElementById("msgSizeChart"), {
 				type : 'line',
 				data : {
@@ -186,7 +195,7 @@
 				data : {
 					labels : labels,
 					datasets : [ {
-						data : msgSize,
+						data : connections,
 						backgroundColor : 'rgb(255,99,132,0.1)',
 						borderColor : 'rgb(255,99,132)',
 						borderWidth : 2,
@@ -205,7 +214,7 @@
 						yAxes : [ {
 							ticks : {
 								min : 0,
-								max : 100000
+								max : 1000
 							}
 						} ]
 					}
@@ -259,7 +268,11 @@
 					]
 				},
 				options: {
-					responsive: true
+					responsive: true,
+					animation : {
+						duration : 0,
+						easing : 'linear'
+					}
 				}
 			});
 			
@@ -267,6 +280,8 @@
 			charts.push(connectionChart);
 			charts.push(msgSendingCountChart);
 			charts.push(platformChart);
+			
+			updateTopicTable();
 		}
 
 		function addEmptyValues(arr, n) {
@@ -316,9 +331,8 @@
 
 		function advance() {
 			console.log("advance func");
-			
-			//updateCharts();
-			//updateTopicTable();
+
+			getData();
 			
 			if (msgSize.length > labels.length) {
 				console.log("advance func shift");
@@ -337,7 +351,22 @@
 		
 		window.onload = function() {
 			console.log("window.onload");
-			getData();
+
+			msgSize = JSON.parse('${msgSize}');
+			console.log(msgSize);
+			
+			connections = JSON.parse('${connections}');
+			console.log(connections);
+			
+			msgSendingCount = JSON.parse('${msgSendingCount}');
+			console.log(msgSendingCount);
+			
+			topics = JSON.parse('${topics}');
+			console.log(topics);
+			
+			Android = parseInt(JSON.parse('${Android}'));
+			iOS = parseInt(JSON.parse('${iOS}'));
+			
 			initialize();
 			advance();
 

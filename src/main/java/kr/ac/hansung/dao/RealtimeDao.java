@@ -28,7 +28,6 @@ public class RealtimeDao {
 		Query<Realtime> query = session.createQuery(hql, Realtime.class);
 		Realtime realtime = query.getResultList().get(query.getResultList().size()-1);
 		
-		
 		return realtime;
 	}
 	
@@ -39,5 +38,22 @@ public class RealtimeDao {
 
 		return  query.getResultList();
 	}
+
+	public List<Realtime> getRecentRealtimData() {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query<Long> countQuery = session.createQuery("select count(*) from Realtime realtime", Long.class);	
+		int count = countQuery.uniqueResult().intValue(); // 실시간 데이터 레코드 개수
+		
+		Query<Realtime> recordQuery = session.createQuery("from Realtime", Realtime.class);
+		
+		if(count > 15) {
+			recordQuery.setFirstResult(count - 14);
+			recordQuery.setMaxResults(count);
+		}
+		
+		return recordQuery.getResultList();
+	}
+	
 
 }

@@ -1,5 +1,6 @@
 package kr.ac.hansung.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -37,7 +38,32 @@ public class DashboardController {
 	
 	@RequestMapping("/")
 	public String getCurrentRealtimeData(Model model) {
+		List<Realtime> realtimes = realtimeService.getRecentRealtimeData();
+				
+		List<Topic> topics = topicService.getTopics();
 		
+		Map<String, Integer> platformMap = clientService.getPlatforms();
+		
+		List<Integer> msgSize = new ArrayList<Integer>();
+		List<Integer> connections = new ArrayList<Integer>();
+		List<Integer> msgSendingCount = new ArrayList<Integer>();
+		
+		for(int i=0; i<realtimes.size(); i++) {
+			msgSize.add(realtimes.get(i).getAccumulated_msg_size());
+			connections.add(realtimes.get(i).getNumber_of_connections());
+			msgSendingCount.add(realtimes.get(i).getNumber_of_msgs());
+		}
+		
+		Gson gson = new Gson();
+		
+		model.addAttribute("msgSize", gson.toJson(msgSize));
+		model.addAttribute("connections", gson.toJson(connections));
+		model.addAttribute("msgSendingCount", gson.toJson(msgSendingCount));
+
+		model.addAttribute("topics", gson.toJson(topics));
+		
+		model.addAttribute("Android", platformMap.get("Android"));
+		model.addAttribute("iOS", platformMap.get("iOS"));
 		
 		return "realtimeChart";
 	}
@@ -65,7 +91,6 @@ public class DashboardController {
 			@Override
 			public void run() {
 				try {
-					
 					emitter.send(jsonString);
 					emitter.complete();
 					Thread.sleep(1000);

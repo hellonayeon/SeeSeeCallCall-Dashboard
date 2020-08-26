@@ -22,4 +22,8 @@ public class RealtimeService {
 		return realtimeDao.getAllRealtimeData();
 	}
 	
+	public List<Realtime> getRecentRealtimeData() {
+		return realtimeDao.getRecentRealtimData();
+	}
+	
 }

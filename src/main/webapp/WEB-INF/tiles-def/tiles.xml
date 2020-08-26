@@ -17,6 +17,11 @@
     <put-attribute name="title" value="Realtime Chart" />
     <put-attribute name="body" value="/WEB-INF/views/realtimeChart.jsp" />
   </definition>
+  
+  <definition name="home" extends="base">
+    <put-attribute name="title" value="Home" />
+    <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+  </definition>
 
   
 </tiles-definitions>
