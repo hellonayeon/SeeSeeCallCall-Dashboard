@@ -29,6 +29,14 @@ public class ClientDao {
 		return query.getResultList();
 	}
 	
+	public List<Client> getTopicClients(String topic) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query<Client> query = session.createQuery("from Client where topic=\'" + topic + "\'", Client.class);
+		
+		return query.getResultList();
+	}
+	
 	public Map<String, Integer> getPlatforms() {
 		
 		int android = 0;

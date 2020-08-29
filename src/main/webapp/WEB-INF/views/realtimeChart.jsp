@@ -18,34 +18,25 @@ canvas {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
-
-#table-wrapper {
-	overflow-y: auto;
-	height: 300px;
-}
-
-#table-wrapper thead th {
-	position: sticky;
-	top: 0;
-}
+#table-wrapper          { overflow-y: auto; height: 200px; }
+#table-wrapper thead th { position: sticky; top: 0; }
 
 /* Just common table stuff. Really. */
-table {
-	border-collapse: collapse;
-	width: 100%;
-}
-
-th, td {
-	padding: 8px 16px;
-}
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
 
 .rounded-background {
 	background: white;
 	border-radius: 5px;
 }
 
-.total-data-area {
-	height: 100px;
+
+.total-amount-area {
+	
+}
+
+.total-amount-title {
+	
 
 }
 
@@ -57,22 +48,30 @@ th, td {
 		<div class="row">
 			<div class="col-md-3">
 				<div class="col-md-12 rounded-background total-data-area">
-					<span class="">hello!</span>
+					<p class="total-amount-title">Message Size</p>
+					<p class="" id="msgSizeLabel">0</p>
 				</div>
 			</div>
 			<div class="col-md-3">
 				<div class="col-md-12 rounded-background total-data-area">
-					<span>halo!</span>
+					<p class="total-amount-title">Message Publish Count</p>
+					<p class="" id="msgPublishCountLabel">0</p>
 				</div>
 			</div>
 			<div class="col-md-3">
 				<div class="col-md-12 rounded-background total-data-area">
-					<span>halo!</span>
+					<p class="total-amount-title">Connections</p>
+					<p class="" id="connectionsLabel">0</p>
+					<p class="total-amount-title">Senders</p>
+					<p class="" id="sendersLabel">0</p>
 				</div>
 			</div>
 			<div class="col-md-3">
 				<div class="col-md-12 rounded-background total-data-area">
-					<span>halo!</span>
+					<p class="total-amount-title">Android</p>
+					<p class="" id="androidLabel">0</p>
+					<p class="total-amount-title">iOS</p>
+					<p class="" id="iOSLabel">0</p>
 				</div>
 			</div>
 		</div>
@@ -83,83 +82,8 @@ th, td {
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-6">
-				<div class="col-md-12 rounded-background total-data-area">
-					<span>hello!</span>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="col-md-12 rounded-background total-data-area">
-					<span>halo!</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="container-wrapper">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3">
-				<div class="col-md-12 rounded-background total-data-area">
-					<span>hello!</span>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="col-md-12 rounded-background total-data-area">
-					<span>halo!</span>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="col-md-12 rounded-background total-data-area">
-					<span>halo!</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- 
-<div class="container-wrapper">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-3">
-				<canvas id="msgSizeChart"></canvas>
-			</div>
-			<div class="col-3">
-				<canvas id="msgPublishCountChart"></canvas>
-			</div>
-			
-		</div>
-
-	</div>
-</div>
-
-
-
-
-<div class="container-wrapper">
-	<div class="container-fluid"></div>
-		<div class="row">
-			<div class="col-4">
-				<canvas id="connectionAndSenderChart"></canvas>
-			</div>
-			<div class="col-4">
-				<canvas id="componentRatioChart"></canvas>
-			</div>
-			<div class="col-4">
-				<canvas id="platformRatioChart"></canvas>
-			</div>
-			
-		</div>
-</div>
-
-
-<div class="container-wrapper">
-	<div class="container-fluid">
-		<div class="row">
-
-			<div class="col-12" id="table-wrapper">
-				<table id="topicTable" class="table table-hover">
+				<div class="col-md-12 rounded-background" id="table-wrapper">
+					<table id="topicTable" class="table table-hover">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
@@ -177,14 +101,39 @@ th, td {
 						<tr></tr>
 					</tbody>
 				</table>
+				</div>
 			</div>
-
-			
-
+			<div class="col-md-6">
+				<div class="col-md-12 rounded-background total-data-area">
+					<canvas id="componentChart"></canvas>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
--->
+
+<div class="container-wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="col-md-12 rounded-background total-data-area">
+					<canvas id="clientMsgSizeChart"></canvas>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="col-md-12 rounded-background total-data-area">
+					<canvas id="clientMsgPublishCountChart"></canvas>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="col-md-12 rounded-background total-data-area">
+					<canvas id="topicMsgSizeChart"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <div></div>
 
@@ -196,39 +145,68 @@ th, td {
 	var charts = [];
 	var speed = 250;
 
-	/* 모니터링 데이터 (메시지량, 커넥션 수, 메시지 전송 횟수, 토픽, 플랫폼) */
-	var msgSize = [];
-	var connections = [];
-	var msgPublishCount = [];
-	var senders = [];
+	var msgSize;
+	var connections;
+	var msgPublishCount;
+	var senders;
+	
 	var topics = [];
+	
+	var components = [];
+	var stroke;
+	var rect;
+	var oval;
+	var text;
+	
+	var curTopic;
+	var curComponent;
+	
+	var curClients = [];
+	var curClientsName = [];
+	var curClientsMsgSize = [];
+	var curClientsMsgPublishCount = [];
+	
+	var topicMsgSize = [];
 
 	var Android; // number of
 	var iOS;
 
-	var platform = [];
-
+	
 	/* 차트 */
 	var msgSizeChart;
 	var connectionAndSenderChart;
 	var msgPublishCountChart;
-	var componentRatioChart;
 	var platformRatioChart;
+	
+	var componentChart;
+	var topicMsgSizeChart;
+	var clientMsgSizeChart;
+	var clientMsgPublishCountChart;
 
 	addEmptyValues(labels, 5);
 
 	window.onload = function() {
 		console.log("window.onload");
 
-		initializeChartData();
+		initializeData();
 		initializeChart();
 
 		advance();
 
 	};
+	
+	function initTopicData() {
+		curClients = [];
+		
+		curClientsName = [];
+		curClientsMsgSize = [];
+		curClientsMsgPublishCount = [];		
+	}
 
 	// 차트 초기 데이터 세팅
-	function initializeChartData() {
+	function initializeData() {
+		console.log("initialize data func");
+		
 		msgSize = JSON.parse('${msgSize}');
 		console.log(msgSize);
 
@@ -243,6 +221,43 @@ th, td {
 
 		topics = JSON.parse('${topics}');
 		console.log(topics);
+		
+		components = JSON.parse('${components}');
+		console.log(components);
+				
+		
+		if(topics[0] !== null) {
+			console.log("topic is not null");
+			
+			initTopicData();
+			
+			curTopic = topics[0];
+			curClients = curTopic.clients;
+			
+			topicMsgSize.push(curTopic.accumulatedMsgSize);
+			
+			for(var i=0; i<curClients.length; i++) {
+				curClientsName.push(curClients[i].name);
+				curClientsMsgSize.push(curClients[i].accumulatedMsgSize);
+				curClientsMsgPublishCount.push(curClients[i].msgPublishCount);
+			}
+			
+			
+			console.log(curTopic);
+			for(var i=0; i<components.length; i++) {
+				console.log(components[i].topic.topic + " " + curTopic.topic);
+				if(components[i].topic.topic == curTopic.topic) {
+					curComponent = components[i];
+					break;
+				}
+			}
+		}
+		console.log(curComponent);
+		
+		stroke = curComponent.stroke;
+		rect = curComponent.rect;
+		oval = curComponent.oval;
+		text = curComponent.text;
 
 		Android = parseInt(JSON.parse('${Android}'));
 		iOS = parseInt(JSON.parse('${iOS}'));
@@ -252,13 +267,97 @@ th, td {
 	function initializeChart() {
 		console.log("chart initialize");
 
-		msgSizeChart = new Chart(document.getElementById("msgSizeChart"), {
+		componentChart = new Chart(document.getElementById("componentChart"), {
+			type : 'bar',
+			data : {
+				labels : ['Stroke', 'Rect', 'Oval', 'Text'],
+				datasets : [ {
+					data : [stroke, rect, text, oval],
+					fillColor : 'rgb(255,0,0,0)',
+					strokeColor : 'rgb(255,99,132)',
+				} ]
+			},
+			options : {
+				responsive : true,
+				title : {
+					display : true,
+					fontSize : 15,
+					text : 'Number of Components'
+				},
+				animation : {
+					duration : 0,
+					easing : 'linear'
+				},
+				legend : false,
+				scales : {
+					yAxes : [ {
+						ticks : {
+							min : 0,
+							max : 50
+						}
+					} ]
+				}
+			}
+		});
+		
+		clientMsgSizeChart = new Chart(document.getElementById("clientMsgSizeChart"), {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: curClientsMsgSize,
+					backgroundColor: [
+						window.chartColors.green,
+						window.chartColors.blue
+					]
+				}],
+				labels: curClientsName
+			},
+			options: {
+				responsive: true,
+				title : {
+					display : true,
+					fontSize : 15,
+					text : 'Client Msg Size'
+				},
+				animation : {
+					duration : 0,
+					easing : 'linear'
+				}
+			}
+		});
+		
+		clientMsgPublishCountChart = new Chart(document.getElementById("clientMsgPublishCountChart"), {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: curClientsMsgPublishCount,
+					backgroundColor: [
+						window.chartColors.green,
+						window.chartColors.blue
+					]
+				}],
+				labels: curClientsName
+			},
+			options: {
+				responsive: true,
+				title : {
+					display : true,
+					fontSize : 15,
+					text : 'Client Msg Publish Count'
+				},
+				animation : {
+					duration : 0,
+					easing : 'linear'
+				}
+			}
+		});
+		
+		topicMsgSizeChart = new Chart(document.getElementById("topicMsgSizeChart"), {
 			type : 'line',
 			data : {
 				labels : labels,
 				datasets : [ {
-					label : 'aaaaaaaaaaaaaaaaaaaaaaa',
-					data : msgSize,
+					data : topicMsgSize,
 					backgroundColor : 'rgb(0,0,0,0)',
 					borderColor : 'rgb(255,99,132)',
 					borderWidth : 2,
@@ -271,7 +370,7 @@ th, td {
 				title : {
 					display : true,
 					fontSize : 15,
-					text : 'Publish Message Size'
+					text : 'Topic' + "\'" + curTopic.topic + "\'" + ' Publish Message Size'
 				},
 				animation : {
 					duration : 0,
@@ -289,130 +388,6 @@ th, td {
 			}
 		});
 
-		connectionAndSenderChart = new Chart(document
-				.getElementById("connectionAndSenderChart"), {
-			type : 'line',
-			data : {
-				labels : labels,
-				datasets : [ {
-					label : 'Connection',
-					data : connections,
-					backgroundColor : 'rgb(255,99,132,0.1)',
-					borderColor : 'rgb(255,99,132)',
-					pointRadius : 5,
-					pointHoverRadius : 10,
-					showLine : false
-				}, {
-					label : 'Sender',
-					data : senders,
-					backgroundColor : 'rgb(0,255,0,0.1)',
-					borderColor : 'rgb(0,255,0)',
-					pointRadius : 5,
-					pointHoverRadius : 10,
-					showLine : false
-				} ]
-			},
-			options : {
-				responsive : true,
-				animation : {
-					duration : 3,
-					easing : 'linear'
-				},
-				legend : {
-					display : true,
-					labels : {
-						fontColor : 'rgb(255, 99, 132)'
-					}
-				},
-				scales : {
-					yAxes : [ {
-						ticks : {
-							min : 0,
-							max : 20
-						}
-					} ]
-				}
-			}
-		});
-
-		msgPublishCountChart = new Chart(document
-				.getElementById("msgPublishCountChart"), {
-			type : 'line',
-			data : {
-				labels : labels,
-				datasets : [ {
-					data : msgPublishCount,
-					backgroundColor : 'rgb(255,99,132,0.1)',
-					borderColor : 'rgb(255,99,132)',
-					borderWidth : 2,
-					lineTension : 0.25,
-					pointRadius : 0
-				} ]
-			},
-			options : {
-				responsive : true,
-				animation : {
-					duration : 0,
-					easing : 'linear'
-				},
-				legend : false,
-				scales : {
-					yAxes : [ {
-						ticks : {
-							min : 0,
-							max : 50
-						}
-					} ]
-				}
-			}
-		});
-		
-		componentRatioChart = new Chart(
-				document.getElementById("componentRatioChart"), {
-					type : 'doughnut',
-					data : {
-						datasets : [ {
-							data : [ Android, iOS ],
-							backgroundColor : [ window.chartColors.green,
-									window.chartColors.blue ]
-						} ],
-						labels : [ 'Android', 'iOS' ]
-					},
-					options : {
-						responsive : true,
-						animation : {
-							duration : 0,
-							easing : 'linear'
-						}
-					}
-				});
-
-		platformRatioChart = new Chart(
-				document.getElementById("platformRatioChart"), {
-					type : 'doughnut',
-					data : {
-						datasets : [ {
-							data : [ Android, iOS ],
-							backgroundColor : [ window.chartColors.green,
-									window.chartColors.blue ]
-						} ],
-						labels : [ 'Android', 'iOS' ]
-					},
-					options : {
-						responsive : true,
-						animation : {
-							duration : 0,
-							easing : 'linear'
-						}
-					}
-				});
-
-		charts.push(msgSizeChart);
-		charts.push(connectionAndSenderChart);
-		charts.push(msgPublishCountChart);
-		charts.push(platformRatioChart);
-
-		updateTopicTable();
 	}
 
 	function addEmptyValues(arr, n) {
@@ -429,12 +404,26 @@ th, td {
 	function updateCharts() {
 		console.log("update charts");
 
-		msgSizeChart.update();
+		/* msgSizeChart.update();
 		connectionAndSenderChart.update();
 		msgPublishCountChart.update();
 
 		platformRatioChart.data.datasets[0].data = [ Android, iOS ];
-		platformRatioChart.update();
+		platformRatioChart.update(); */
+		
+		componentChart.data.datasets[0].data = [stroke, rect, oval, text];
+		componentChart.update();
+		
+		clientMsgSizeChart.data.datasets[0].data = curClientsMsgSize;
+		clientMsgSizeChart.data.labels = curClientsName;
+		clientMsgSizeChart.update();
+		
+		clientMsgPublishCountChart.data.datasets[0].data = curClientsMsgPublishCount;
+		clientMsgPublishCountChart.data.labels = curClientsName;
+		clientMsgPublishCountChart.update();
+		
+		topicMsgSizeChart.data.datasets[0].data = topicMsgSize;
+		topicMsgSizeChart.update();
 
 	}
 
@@ -460,7 +449,49 @@ th, td {
 		}
 
 		topicTableBody.innerHTML = rows;
+		
+		var rows = document.getElementsByTagName('tr');
+		for (var i=0; i < rows.length; i++) {
+			rows[i].addEventListener('click', function(){
+				var cell = this.getElementsByTagName('td')[0];
+				
+				if(curTopic.topic == cell.innerHTML) {
+					return;
+				}
+				
+				for(var i=0; i<topics.length; i++) {
+					if(topics[i].topic == cell.innerHTML) {
+						curTopic = topics[i];
+						topicMsgSize = [];
+						break;
+					}
+				}				
+			});
+		}
 
+	}
+	
+	function updateTotalAmountLabel() {
+		console.log("update total amount");
+		
+		var msgSizeLabel = document.getElementById('msgSizeLabel');
+		msgSizeLabel.innerHTML = msgSize;
+		
+		var msgPublishCountLabel = document.getElementById('msgPublishCountLabel');
+		msgPublishCountLabel.innerHTML = msgPublishCount;
+		
+		var connectionsLabel = document.getElementById('connectionsLabel');
+		connectionsLabel.innerHTML = connections;
+		
+		var sendersLabel = document.getElementById('sendersLabel');
+		sendersLabel.innerHTML = senders;
+		
+		var androidLabel = document.getElementById('androidLabel');
+		androidLabel.innerHTML = Android;
+		
+		var iOSLabel = document.getElementById('iOSLabel');
+		iOSLabel.innerHTML = iOS;
+		
 	}
 
 	function advance() {
@@ -468,17 +499,14 @@ th, td {
 
 		getData();
 
-		if (msgSize.length > labels.length) {
+		if (topicMsgSize.length > labels.length) {
 			console.log("advance func shift");
 
-			msgSize.shift();
-			connections.shift();
-			senders.shift();
-			msgPublishCount.shift();
+			topicMsgSize.shift();
 
 			updateCharts();
 		}
-
+ 		
 		setTimeout(function() {
 			requestAnimationFrame(advance);
 		}, 1000);
@@ -492,32 +520,86 @@ th, td {
 			var obj = JSON.parse(evt.data);
 			console.log(obj);
 
-			// 서버로부터 받은 데이터 저장
+			/* // 서버로부터 받은 데이터 저장
 			msgSize.push(obj.realtime.accumulatedMsgSize);
 			connections.push(obj.realtime.numberOfConnections);
 			msgPublishCount.push(obj.realtime.msgPublishCount);
-			senders.push(obj.realtime.numberOfSenders);
+			senders.push(obj.realtime.numberOfSenders); */
+
+			msgSize = obj.realtime.accumulatedMsgSize;
+			connections = obj.realtime.numberOfConnections;
+			msgPublishCount = obj.realtime.msgPublishCount;
+			senders = obj.realtime.numberOfSenders;
 
 			topics = obj.topics;
+			components = obj.components;
 
 			Android = parseInt(obj.platformMap.Android);
 			iOS = parseInt(obj.platformMap.iOS);
-
-			platform = [];
-			platform.push(Android);
-			platform.push(iOS);
-
-			console.log(msgSize);
-			console.log(connections);
-			console.log(msgPublishCount);
-
-			console.log(topics);
-
-			//console.log(Android);
-			//console.log(iOS);
+			
+			
+/* 			if(topics[0] !== null) {
+				console.log("topic is not null");
+				
+				initTopicData();
+				
+				curTopic = topics[0];
+				curClients = topics[0].clients;
+				
+				for(var i=0; i<curClients.length; i++) {
+					curClientsName.push(curClients[i].name);
+					curClientsMsgSize.push(curClients[i].accumulatedMsgSize);
+					curClientsMsgPublishCount.push(curClients[i].msgPublishCount);
+				}
+				
+				console.log(curTopic);
+				for(var i=0; i<components.length; i++) {
+					console.log(components[i].topic.topic + " " + curTopic.topic);
+					if(components[i].topic.topic == curTopic.topic) {
+						curComponent = components[i];
+						break;
+					}
+				}
+			} */
+			
+			for (var i=0; i<topics.length; i++) {
+				if(topics[i].topic == curTopic.topic) {
+					
+					initTopicData();
+					
+					curTopic = topics[i];
+					curClients = curTopic.clients;
+					
+					topicMsgSize.push(curTopic.accumulatedMsgSize);
+					console.log(topicMsgSize);
+					
+					for(var i=0; i<curClients.length; i++) {
+						curClientsName.push(curClients[i].name);
+						curClientsMsgSize.push(curClients[i].accumulatedMsgSize);
+						curClientsMsgPublishCount.push(curClients[i].msgPublishCount);
+					}
+					
+					console.log(curTopic);
+					for(var i=0; i<components.length; i++) {
+						console.log(components[i].topic.topic + " " + curTopic.topic);
+						if(components[i].topic.topic == curTopic.topic) {
+							curComponent = components[i];
+							break;
+						}
+					}
+					
+					break;
+				}
+			}
+						
+			stroke = curComponent.stroke;
+			rect = curComponent.rect;
+			oval = curComponent.oval;
+			text = curComponent.text;
 
 			updateCharts();
 			updateTopicTable();
+			updateTotalAmountLabel();
 
 		}
 		labels.pop();
