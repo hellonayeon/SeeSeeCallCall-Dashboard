@@ -32,6 +32,9 @@
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
         }
+      body {
+      	background: #F3F3F3;
+      }
       }
     </style>
     <!-- Custom styles for this template -->

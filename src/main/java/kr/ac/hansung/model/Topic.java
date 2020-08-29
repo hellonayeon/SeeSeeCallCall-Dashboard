@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -22,14 +23,16 @@ public class Topic {
 	@Id
 	private String topic;
 	
-	private int msg_sending_count;
+	@Column(name="msg_publish_count")
+	private int msgPublishCount;
 	
-	private int accumulated_msg_size;
+	@Column(name="accumulated_msg_size")
+	private int accumulatedMsgSize;
 	
-	private String start_date;
+	@Column(name="start_date")
+	private String startDate;
 	
-	private String finish_date;
-	
+	@Column(name="participants")
 	private int participants;
 	
 	@OneToMany(mappedBy="topic", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -37,9 +40,10 @@ public class Topic {
 
 	@Override
 	public String toString() {
-		return "Topic [topic=" + topic + ", msg_sending_count=" + msg_sending_count + ", accumulated_msg_size="
-				+ accumulated_msg_size + ", start_date=" + start_date + ", finish_date=" + finish_date
-				+ ", participants=" + participants + ", clients=" + clients + "]";
-	}	
+		return "Topic [topic=" + topic + ", msgPublishCount=" + msgPublishCount + ", accumulatedMsgSize="
+				+ accumulatedMsgSize + ", startDate=" + startDate + ", participants=" + participants + ", clients="
+				+ clients + "]";
+	}
+	
 	
 }

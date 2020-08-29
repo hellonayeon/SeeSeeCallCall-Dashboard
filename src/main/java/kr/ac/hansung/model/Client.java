@@ -2,13 +2,13 @@ package kr.ac.hansung.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -21,19 +21,23 @@ public class Client implements Serializable {
 	@Id
 	private String name;
 	
-	private int msg_sending_count; 
+	@Column(name="msg_publish_count")
+	private int msgPublishCount; 
 	
-	private int accumulated_msg_size;
+	@Column(name="accumulated_msg_size")
+	private int accumulatedMsgSize;
 	
+	@Column(name="platform")
 	private String platform;
 	
 	@Id
+	@Column(name="topic")
 	private String topic;
 
 	@Override
 	public String toString() {
-		return "Client [name=" + name + ", msg_sending_count=" + msg_sending_count + ", accumulated_msg_size="
-				+ accumulated_msg_size + ", platform=" + platform + ", topic=" + topic + "]";
+		return "Client [name=" + name + ", msgPublishCount=" + msgPublishCount + ", accumulatedMsgSize="
+				+ accumulatedMsgSize + ", platform=" + platform + ", topic=" + topic + "]";
 	}
-	
+
 }

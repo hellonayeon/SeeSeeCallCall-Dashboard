@@ -36,6 +36,8 @@ public class DashboardController {
 
 	private ExecutorService nonblockingService = Executors.newSingleThreadExecutor();
 	
+	
+	// 초기 데이터 세팅
 	@RequestMapping("/")
 	public String getCurrentRealtimeData(Model model) {
 		List<Realtime> realtimes = realtimeService.getRecentRealtimeData();
@@ -46,19 +48,23 @@ public class DashboardController {
 		
 		List<Integer> msgSize = new ArrayList<Integer>();
 		List<Integer> connections = new ArrayList<Integer>();
-		List<Integer> msgSendingCount = new ArrayList<Integer>();
+		List<Integer> msgPublishCount = new ArrayList<Integer>();
+		List<Integer> senders = new ArrayList<Integer>();
+		
 		
 		for(int i=0; i<realtimes.size(); i++) {
-			msgSize.add(realtimes.get(i).getAccumulated_msg_size());
-			connections.add(realtimes.get(i).getNumber_of_connections());
-			msgSendingCount.add(realtimes.get(i).getNumber_of_msgs());
+			msgSize.add(realtimes.get(i).getAccumulatedMsgSize());
+			connections.add(realtimes.get(i).getNumberOfConnections());
+			msgPublishCount.add(realtimes.get(i).getMsgPublishCount());
+			senders.add(realtimes.get(i).getNumberOfSenders());
 		}
 		
 		Gson gson = new Gson();
 		
 		model.addAttribute("msgSize", gson.toJson(msgSize));
 		model.addAttribute("connections", gson.toJson(connections));
-		model.addAttribute("msgSendingCount", gson.toJson(msgSendingCount));
+		model.addAttribute("msgPublishCount", gson.toJson(msgPublishCount));
+		model.addAttribute("senders", gson.toJson(senders));
 
 		model.addAttribute("topics", gson.toJson(topics));
 		

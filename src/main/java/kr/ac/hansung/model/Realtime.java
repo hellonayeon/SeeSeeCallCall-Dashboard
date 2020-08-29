@@ -1,5 +1,6 @@
 package kr.ac.hansung.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,16 +18,22 @@ public class Realtime {
 	@Id
 	private String date;
 	
-	private int number_of_connections;
+	@Column(name="number_of_connections")
+	private int numberOfConnections;
 	
-	private int accumulated_msg_size;
+	@Column(name="accumulated_msg_size")
+	private int accumulatedMsgSize;
 	
-	private int number_of_msgs;
+	@Column(name="msg_publish_count")
+	private int msgPublishCount;
+	
+	@Column(name="number_of_senders")
+	private int numberOfSenders;
 
 	@Override
 	public String toString() {
-		return "Realtime [date=" + date + ", number_of_connections=" + number_of_connections + ", accumulated_msg_size="
-				+ accumulated_msg_size + ", number_of_msgs=" + number_of_msgs + "]";
+		return "Realtime [date=" + date + ", numberOfConnections=" + numberOfConnections + ", accumulatedMsgSize="
+				+ accumulatedMsgSize + ", msgPublishCount=" + msgPublishCount + "]";
 	}
 	
 }
