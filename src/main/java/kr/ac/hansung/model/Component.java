@@ -29,6 +29,8 @@ public class Component implements Serializable {
 	
 	private int text;
 	
+	private int image;
+	
 	@Id
 	@OneToOne
     @JoinColumn(name = "topic")

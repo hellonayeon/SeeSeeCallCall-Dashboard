@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .container-wrapper {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .table {
@@ -44,4 +44,39 @@
 	color: white;
 	width: 30%;
 	padding: 2px;
+}
+
+#page-title {
+	margin-top: -30px;
+	margin-bottom: 10px; 
+	font-weight: bold;
+	font-size: 30px;
+}
+
+.partition-title {
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: -20px;
+}
+
+.chart-title {
+	font-weight: bold;
+	font-size: 15px;
+	padding: 10px;
+	margin-bottom: -5px;
+}
+
+.partition {
+	margin-top: 20px;
+	margin-bottom: -10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+header {
+	margin-bottom: 15px;
+}
+
+body, header, footer {
+	font-family: Century Gothic, sans-serif;	
 }
