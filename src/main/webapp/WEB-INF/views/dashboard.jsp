@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<title>Line Chart</title>
+<title>SeeSeeCallCall Dashboard</title>
 
 <script src="<c:url value="/resources/js/Chart.js/Chart.min.js"/>"></script>
 <script src="<c:url value="/resources/js/Chart.js/samples/utils.js"/>"></script>
@@ -18,6 +18,7 @@ canvas {
 	-ms-user-select: none;
 }
 
+/* 테이블 표시 영역 (최대 3개의 행 표시) */
 #table-wrapper {
 	overflow-y: auto;
 	height: 250px;
@@ -31,8 +32,8 @@ canvas {
 
 /* Just common table stuff. Really. */
 table {
-	border-collapse: collapse;
-	width: 100%;
+	/* border-collapse: collapse;
+	width: 100%; */
 }
 
 th, td {
@@ -53,7 +54,7 @@ th, td {
 }
 
 .topic-msg-size-wrapper {
-	margin-top: -90px;
+	margin-top: -80px;
 }
 
 .client-msg-wrapper {
@@ -62,7 +63,7 @@ th, td {
 
 .platform-content {
 	padding-top: 50px;
-	padding-bottom: 50px;
+	padding-bottom: 80px;
 }
 
 .platform-label {
@@ -134,16 +135,18 @@ th, td {
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background" id="table-wrapper">
 						<p class="chart-title">Topics in use</p>
-						<table id="topicTable" class="table table-hover">
+						<table id="topicTable" class="table table-hover w-auto">
 							<thead>
 								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Topic</th>
-									<th scope="col">Start Date</th>
-									<th scope="col">Duration (min.)</th>
+									<th scope="col" style="width: 10%">#</th>
+									<th scope="col" style="width: 20%">Topic</th>
+									<th scope="col" style="width: 40%">Start Date</th>
+									<th scope="col" style="width: 10%">Participants</th>
+									<th scope="col" style="width: 20%">Duration</th>
 								</tr>
 							</thead>
 							<tbody id="topicTableBody">
+								<tr></tr>
 								<tr></tr>
 								<tr></tr>
 								<tr></tr>
@@ -155,13 +158,9 @@ th, td {
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background total-data-area">
 						<p class="chart-title">Components</p>
-						<canvas id="componentChart" height="120"></canvas>
+						<canvas id="componentChart" height="100"></canvas>
 					</div>
 				</div>
-
-
-
-
 			</div>
 		</div>
 	</div>
@@ -180,14 +179,14 @@ th, td {
 					<div
 						class="col-md-12 rounded-background total-data-area client-msg-wrapper">
 						<p class="chart-title">Client Message Size</p>
-						<canvas id="clientMsgSizeChart" height="180"></canvas>
+						<canvas id="clientMsgSizeChart" height="190"></canvas>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div
 						class="col-md-12 rounded-background total-data-area client-msg-wrapper">
 						<p class="chart-title">Client Publish Count</p>
-						<canvas id="clientMsgPublishCountChart" height="180"></canvas>
+						<canvas id="clientMsgPublishCountChart" height="190"></canvas>
 					</div>
 				</div>
 			</div>
@@ -798,6 +797,7 @@ th, td {
 			rows += '<th scope="row">' + (i + 1) + '</th>';
 			rows += '<td>' + topics[i].topic + '</td>';
 			rows += '<td>' + topics[i].startDate + '</td>';
+			rows += '<td>' + topics[i].participants + '</td>';
 			rows += '<td>' + durations[i] + '</td>';
 			rows += '</tr>';
 		}
@@ -976,10 +976,18 @@ th, td {
 				var date1 = new Date(topics[i].startDate);
 				var date2 = new Date();
 
-				var diff = date2.getTime() - date1.getTime();
+				/* var diff = date2.getTime() - date1.getTime();
 
-				var duration = (diff / (1000 * 60)); // Minutes
-				duration = duration.toFixed(2);
+				var duration = (diff / (1000 * 60)); // Minutes */
+				
+				var diff = Math.abs(new Date() - new Date(topics[i].startDate.replace(/-/g,'/')));
+				console.log(diff);
+				
+				var duration = msToTime(diff);
+				
+				//var duration = new Date(diff).format("HH:mm:ss");
+				
+				// duration = duration.toFixed(2);
 				
 				
 				console.log(duration);
@@ -995,4 +1003,15 @@ th, td {
 		}
 		
 	}
+	
+	function msToTime(s) {
+		  var ms = s % 1000;
+		  s = (s - ms) / 1000;
+		  var secs = s % 60;
+		  s = (s - secs) / 60;
+		  var mins = s % 60;
+		  var hrs = (s - mins) / 60;
+
+		  return hrs + ':' + mins + ':' + secs;
+		}
 </script>

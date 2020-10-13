@@ -81,12 +81,12 @@ public class DashboardController {
 		model.addAttribute("Android", platformMap.get("Android"));
 		model.addAttribute("iOS", platformMap.get("iOS"));
 
-		return "realtimeChart";
+		return "dashboard";
 	}
 
-	@RequestMapping("/realtimeChart")
-	public String showRealtimeChart() {
-		return "realtimeChart";
+	@RequestMapping("/dashboard")
+	public String showDashboard() {
+		return "dashboard";
 	}
 
 	/* SSE URL */
