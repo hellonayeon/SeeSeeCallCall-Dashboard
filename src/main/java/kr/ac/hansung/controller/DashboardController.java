@@ -37,9 +37,14 @@ public class DashboardController {
 	private ClientService clientService;
 	
 	@Autowired 
-	ComponentService componentService;
+	private ComponentService componentService;
 
-	private ExecutorService nonblockingService = Executors.newSingleThreadExecutor();
+	@Autowired
+	private Gson gson;
+	
+	private ExecutorService nonBlockingService = Executors.newSingleThreadExecutor();
+	
+	private int count = 0;
 
 	/* 초기에 보일 데이터  */
 	@RequestMapping("/")
@@ -67,7 +72,6 @@ public class DashboardController {
 			senders.add(realtimes.get(i).getNumberOfSenders());
 		}
 		
-		Gson gson = new Gson();
 		
 		model.addAttribute("msgSize", gson.toJson(msgSize)); 
 		model.addAttribute("connections", gson.toJson(connections)); 
@@ -92,34 +96,68 @@ public class DashboardController {
 	/* SSE URL */
 	@RequestMapping("/update")
 	public ResponseBodyEmitter update() {
-		final SseEmitter emitter = new SseEmitter();
-
-		Realtime realtime = realtimeService.getCurrentRealtimeData();
-		List<Topic> topics = topicService.getTopics();
-		List<Component> components = componentService.getComponents();
 		
-		Map<String, Integer> platformMap = clientService.getPlatforms();
+		System.out.println("******************** update func start ********************");
+		
+//		final SseEmitter emitter = new SseEmitter();
+//		
+//		nonblockingService.execute(new Runnable() {
+//			int count = 0;
+//			
+//			@Override
+//			public void run() {
+//				while(true) {
+//					try {
+//						System.out.println("******************** run ********************");
+//
+//						Realtime realtime = realtimeService.getCurrentRealtimeData();
+//						List<Topic> topics = topicService.getTopics();
+//						List<Component> components = componentService.getComponents();
+//						
+//						Map<String, Integer> platformMap = clientService.getPlatforms();
+//
+//						DashboardData chartData = new DashboardData(realtime, topics, components, platformMap);
+//
+//						final String jsonString = gson.toJson(chartData);
+//						
+//						emitter.send(jsonString);
+//						//emitter.complete();
+//						Thread.sleep(3000);
+//						
+//					} catch (Exception e) {
+//						emitter.completeWithError(e);
+//						return;
+//					}
+//				}
+//			}
+//		});
+//		
+//		return emitter;
+		
+		
+		
+		SseEmitter emitter = new SseEmitter();
+        nonBlockingService.execute(() -> {
+            try {
+            	Realtime realtime = realtimeService.getCurrentRealtimeData();
+        		List<Topic> topics = topicService.getTopics();
+        		List<Component> components = componentService.getComponents();
+        		
+        		Map<String, Integer> platformMap = clientService.getPlatforms();
 
-		DashboardData chartData = new DashboardData(realtime, topics, components, platformMap);
+        		DashboardData chartData = new DashboardData(realtime, topics, components, platformMap);
 
-		final String jsonString = new Gson().toJson(chartData);
+        		final String jsonString = gson.toJson(chartData);
+        		
+                emitter.send(jsonString);
+                emitter.complete();
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+            }
+        });
+        return emitter;
 
-		nonblockingService.execute(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					emitter.send(jsonString);
-					emitter.complete();
-					Thread.sleep(1000);
-
-				} catch (Exception e) {
-					emitter.completeWithError(e);
-					return;
-				}
-			}
-		});
-
-		return emitter;
+		
 	}
 
 }

@@ -47,8 +47,8 @@ public class RealtimeDao {
 		
 		Query<Realtime> recordQuery = session.createQuery("from Realtime", Realtime.class);
 		
-		if(count > 15) {
-			recordQuery.setFirstResult(count - 14);
+		if(count > 11) {
+			recordQuery.setFirstResult(count - 10);
 			recordQuery.setMaxResults(count);
 		}
 		

@@ -45,16 +45,8 @@ th, td {
 	border-radius: 5px;
 }
 
-.total-amount-area {
-	
-}
-
-.total-amount-title {
-	
-}
-
 .topic-msg-size-wrapper {
-	margin-top: -80px;
+	margin-top: -60px; /* -80px */
 }
 
 .client-msg-wrapper {
@@ -63,7 +55,7 @@ th, td {
 
 .platform-content {
 	padding-top: 50px;
-	padding-bottom: 80px;
+	padding-bottom: 50px; /* 80px; */
 }
 
 .platform-label {
@@ -85,6 +77,7 @@ th, td {
 .partition {
 	margin-top: -20px;
 }
+
 </style>
 <div class="partition">
 <!--  <div class="partition-title"> Total amount of topic figures </div> -->
@@ -92,25 +85,25 @@ th, td {
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="col-md-12 rounded-background total-data-area">
+				<div class="col-md-12 rounded-background">
 					<p class="chart-title">Message Size</p>
 					<canvas id="msgSizeChart"></canvas>
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="col-md-12 rounded-background total-data-area">
+				<div class="col-md-12 rounded-background">
 					<p class="chart-title">Connections & Senders</p>
 					<canvas id="connectionAndSenderChart"></canvas>
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="col-md-12 rounded-background total-data-area">
+				<div class="col-md-12 rounded-background">
 					<p class="chart-title">Message Publish Count</p>
 					<canvas id="msgPublishCountChart"></canvas>
 				</div>
 			</div>
 			<div class="col-md-3">
-				<div class="col-md-12 rounded-background total-data-area">
+				<div class="col-md-12 rounded-background">
 					<p class="chart-title">Platform</p>
 					<p class="platform-content">
 						<img src="<c:url value="/resources/images/android-logo.png"/>"
@@ -156,9 +149,9 @@ th, td {
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="col-md-12 rounded-background total-data-area">
+					<div class="col-md-12 rounded-background">
 						<p class="chart-title">Components</p>
-						<canvas id="componentChart" height="100"></canvas>
+						<canvas id="componentChart" height="110"></canvas>
 					</div>
 				</div>
 			</div>
@@ -170,23 +163,23 @@ th, td {
 			<div class="row">
 				<div class="col-md-6">
 					<div
-						class="col-md-12 rounded-background total-data-area topic-msg-size-wrapper">
+						class="col-md-12 rounded-background topic-msg-size-wrapper">
 						<p class="chart-title">Topic Message Size</p>
 						<canvas id="topicMsgSizeChart" height="120"></canvas>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div
-						class="col-md-12 rounded-background total-data-area client-msg-wrapper">
+						class="col-md-12 rounded-background client-msg-wrapper">
 						<p class="chart-title">Client Message Size</p>
-						<canvas id="clientMsgSizeChart" height="190"></canvas>
+						<canvas id="clientMsgSizeChart" height="205"></canvas>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div
-						class="col-md-12 rounded-background total-data-area client-msg-wrapper">
+						class="col-md-12 rounded-background client-msg-wrapper">
 						<p class="chart-title">Client Publish Count</p>
-						<canvas id="clientMsgPublishCountChart" height="190"></canvas>
+						<canvas id="clientMsgPublishCountChart" height="205"></canvas>
 					</div>
 				</div>
 			</div>
@@ -198,7 +191,7 @@ th, td {
 <div></div>
 
 <script>
-	var labels = [];
+	var labels = ['30', '27', '24', '21', '18', '15', '12', '9', '6', '3', '0'];
 	var data = [];
 	var connectionData = [];
 	var messageData = [];
@@ -244,19 +237,14 @@ th, td {
 	var clientMsgSizeChart;
 	var clientMsgPublishCountChart;
 
-	addEmptyValues(labels, 5);
 
 	window.onload = function() {
 		console.log("window.onload");
-
-		//startTimer();
 		
 		initializeData();
 		initializeChart();
 
 		getData();
-
-		shiftArrays();
 		
 	};
 
@@ -273,22 +261,22 @@ th, td {
 		console.log("initialize data func");
 
 		msgSize = JSON.parse('${msgSize}');
-		console.log(msgSize);
+		//console.log(msgSize);
 
 		connections = JSON.parse('${connections}');
-		console.log(connections);
+		//console.log(connections);
 
 		msgPublishCount = JSON.parse('${msgPublishCount}');
-		console.log(msgPublishCount);
+		//console.log(msgPublishCount);
 
 		senders = JSON.parse('${senders}');
-		console.log(senders);
+		//console.log(senders);
 
 		topics = JSON.parse('${topics}');
-		console.log(topics);
+		//console.log(topics);
 
 		components = JSON.parse('${components}');
-		console.log(components);
+		//console.log(components);
 
 		if (topics[0] != null) {
 			console.log("topic is not null");
@@ -737,40 +725,15 @@ th, td {
 
 	}
 
-	function addEmptyValues(arr, n) {
-		for (var i = 60; i >= 0; i -= n) {
-			arr.push(i);
-			/* if (i % 10 == 0) {
-				arr.push(i);
-			} else {
-				arr.push('');
-			} */
-
-		}
-
-	}
-
 	function updateCharts() {
 		console.log("update charts");
-
-		/* msgSizeChart.update();
-		connectionAndSenderChart.update();
-		msgPublishCountChart.update();
-
-		platformRatioChart.data.datasets[0].data = [ Android, iOS ];
-		platformRatioChart.update(); */
 
 		msgSizeChart.update();
 		connectionAndSenderChart.update();
 		msgPublishCountChart.update();
 
-		componentChart.data.datasets[0].data = [ stroke, rect, oval, text,
-				image ];
+		componentChart.data.datasets[0].data = [ stroke, rect, oval, text, image ];
 		componentChart.update();
-
-		clientMsgSizeChart.data.datasets[0].data = curClientsMsgSize;
-		clientMsgSizeChart.data.labels = curClientsName;
-		clientMsgSizeChart.update();
 
 		clientMsgPublishCountChart.data.datasets[0].data = curClientsMsgPublishCount;
 		clientMsgPublishCountChart.data.labels = curClientsName;
@@ -778,6 +741,10 @@ th, td {
 
 		topicMsgSizeChart.data.datasets[0].data = topicMsgSize;
 		topicMsgSizeChart.update();
+		
+		clientMsgSizeChart.data.datasets[0].data = curClientsMsgSize;
+		clientMsgSizeChart.data.labels = curClientsName;
+		clientMsgSizeChart.update();
 
 	}
 
@@ -836,36 +803,12 @@ th, td {
 
 	}
 
-	function advance() {
-		console.log("advance func");
-
-		// getData();
-
-		if (msgSize.length > labels.length) {
-			console.log("advance func shift (total data)");
-
-			msgSize.shift();
-			connections.shift();
-			senders.shift();
-			msgPublishCount.shift();
-		}
-
-		if (topicMsgSize.length > labels.length) {
-			console.log("advance func shift (topicMsgSize)");
-
-			topicMsgSize.shift();
-
-			updateCharts();
-		}
-		
-		
-
-		setTimeout(function() {
-			requestAnimationFrame(advance);
-		}, 3000);
-	}
 	
 	function shiftArrays() {
+		
+		console.log("-------------------- length --------------------");
+		console.log("msgSize = " + msgSize.length + ", topicMsgSize = " + topicMsgSize.length + ", labels = " + labels.length);
+		
 		if (msgSize.length > labels.length) {
 			console.log("advance func shift (total data)");
 
@@ -874,21 +817,21 @@ th, td {
 			senders.shift();
 			msgPublishCount.shift();
 			
-			updateCharts();
+			//updateCharts();
 		}
 
-		if (topicMsgSize.length > labels.length) {
+		if (topicMsgSize.length == labels.length) {
 			console.log("advance func shift (topicMsgSize)");
 
 			topicMsgSize.shift();
 
-			updateCharts();
+			// updateCharts();
 		}
 
 
-		setTimeout(function() {
+		/* setTimeout(function() {
 			requestAnimationFrame(shiftArrays);
-		}, 1000);
+		}, 1000); */
 	}
 	
 	function calcDuration() {
@@ -896,13 +839,21 @@ th, td {
 	}
 
 	function getData() {
-		var sse = new EventSource("http://localhost:8080/Dashboard/update");
+		var es = new EventSource("http://localhost:8080/Dashboard/update");
 
-		sse.onmessage = function(evt) {
+		es.onopen = function(evt) {
+			console.log("connection success!!");
+		}
+		
+		/* es.onerror = function(evt) {
+			console.log("occur error!!");
+		} */
+		
+		es.onmessage = function(evt) {
 			console.log("getData func");
 
 			var obj = JSON.parse(evt.data);
-			console.log(obj);
+			console.log(evt.data);
 
 			// 서버로부터 받은 데이터 저장
 			msgSize.push(obj.realtime.accumulatedMsgSize);
@@ -915,6 +866,8 @@ th, td {
 
 			Android = parseInt(obj.platformMap.Android);
 			iOS = parseInt(obj.platformMap.iOS);
+			
+			shiftArrays();
 
 			if (topics.length != 0) {
 				if (topics.length == 1) {
@@ -972,25 +925,13 @@ th, td {
 			console.log("calc duration");
 			durations = [];
 			for (var i=0; i<topics.length; i++) {
-				console.log(topics[i].startDate);
-				var date1 = new Date(topics[i].startDate);
-				var date2 = new Date();
-
-				/* var diff = date2.getTime() - date1.getTime();
-
-				var duration = (diff / (1000 * 60)); // Minutes */
 				
 				var diff = Math.abs(new Date() - new Date(topics[i].startDate.replace(/-/g,'/')));
 				console.log(diff);
 				
 				var duration = msToTime(diff);
 				
-				//var duration = new Date(diff).format("HH:mm:ss");
-				
-				// duration = duration.toFixed(2);
-				
-				
-				console.log(duration);
+				//console.log(duration);
 				
 				durations.push(duration);
 
@@ -1001,7 +942,7 @@ th, td {
 			updateTotalAmountLabel();
 
 		}
-		
+
 	}
 	
 	function msToTime(s) {
@@ -1013,5 +954,6 @@ th, td {
 		  var hrs = (s - mins) / 60;
 
 		  return hrs + ':' + mins + ':' + secs;
-		}
+	}
+	
 </script>

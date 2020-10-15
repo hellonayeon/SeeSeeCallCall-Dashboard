@@ -56,7 +56,7 @@
 	</logger>
 	
 	<logger name="org.hibernate.type.descriptor.sql" >
-		<level value="WARN" />
+		<level value="INFO" />
 	</logger>
 
 	<root>

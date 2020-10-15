@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans
-	xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -33,5 +32,8 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-
+	
+	
+	<beans:bean id="gson" class="com.google.gson.Gson"></beans:bean>
+	
 </beans:beans>
