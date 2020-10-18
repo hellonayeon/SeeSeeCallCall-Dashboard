@@ -246,6 +246,8 @@ th, td {
 
 		getData();
 		
+		startTimer();
+		
 	};
 
 	function initTopicData() {
@@ -318,7 +320,7 @@ th, td {
 			data : {
 				labels : labels,
 				datasets : [ {
-					label : 'Accumulated Msg Size',
+					label : 'Msg Size',
 					data : msgSize,
 					backgroundColor : 'rgb(0,0,0,0)',
 					borderColor : 'rgb(22,160,232)',
@@ -331,7 +333,7 @@ th, td {
 			options : {
 				responsive : true,
 				animation : {
-					duration : 0,
+					duration : 1000,
 					easing : 'linear'
 				},
 				legend : false,
@@ -362,6 +364,13 @@ th, td {
 							labelString : 'size'
 						}
 					} ]
+				},
+				tooltips: {
+					mode: 'nearest',
+					titleFontSize: 20,
+					backgroundColor: 'rgba(255, 255, 255, 0.8)',
+					titleFontColor: 'rgb(102, 102, 102)',
+					bodyFontColor: 'rgb(102, 102, 102)'
 				},
 				layout : {
 					padding : {
@@ -399,7 +408,7 @@ th, td {
 			options : {
 				responsive : true,
 				animation : {
-					duration : 3,
+					duration : 1000,
 					easing : 'linear'
 				},
 				legend : {
@@ -436,6 +445,12 @@ th, td {
 						}
 					} ]
 				},
+				tooltips: {
+					titleFontSize: 20,
+					backgroundColor: 'rgba(255, 255, 255, 0.8)',
+					titleFontColor: 'rgb(102, 102, 102)',
+					bodyFontColor: 'rgb(102, 102, 102)'
+				},
 				layout : {
 					padding : {
 						left : -5,
@@ -464,7 +479,7 @@ th, td {
 			options : {
 				responsive : true,
 				animation : {
-					duration : 0,
+					duration : 500,
 					easing : 'linear'
 				},
 				legend : false,
@@ -522,7 +537,7 @@ th, td {
 			options : {
 				responsive : true,
 				animation : {
-					duration : 0,
+					duration : 1000,
 					easing : 'linear'
 				},
 				legend : false,
@@ -572,9 +587,9 @@ th, td {
 			options : {
 				responsive : true,
 				animation : {
-					duration : 0,
+					duration : 1000,
 					easing : 'linear'
-				}
+				},
 			}
 		});
 
@@ -616,7 +631,7 @@ th, td {
 			options : {
 				responsive : true,
 				animation : {
-					duration : 0,
+					duration : 1000,
 					easing : 'linear'
 				},
 				legend : false,
@@ -684,13 +699,38 @@ th, td {
 		clientMsgSizeChart.update();
 
 	}
+	
+
+	function printDuration() {
+
+		// 현재 사용중인 토픽이 없거나(토픽 배열이 빈 상태), 테이블 업데이트가 이루어지지 않은 경우(행과 열이 생성되지 않은 상태)
+		if(document.getElementById('topicTable').rows.length - 1 != topics.length) {
+			for (var i = 0; i < topics.length; i++) {
+				durations[i] = '0:0:0';
+			}
+			return;
+		}
+		
+		durations = [];
+		for (var i = 0; i < topics.length; i++) {
+
+			var diff = Math.abs(new Date()
+					- new Date(topics[i].startDate.replace(/-/g, '/')));
+			console.log(diff);
+
+			var duration = msToTime(diff);
+
+			durations.push(duration); // function updateTopicTable() 에서 반영하기 위해
+			document.getElementById('topicTable').rows[i + 1].cells[4].innerHTML = duration;
+		}
+
+	}
 
 	function updateTopicTable() {
 		console.log("update topic topic table");
-
+		
 		var topicTable = document.getElementById('topicTable');
 		var topicTableBody = document.getElementById('topicTableBody');
-		var row, cell1, cell2, cell3;
 
 		topicTableBody.innerHTML = "";
 
@@ -740,12 +780,12 @@ th, td {
 
 	}
 
-	
 	function shiftArrays() {
-		
+
 		console.log("-------------------- length --------------------");
-		console.log("msgSize = " + msgSize.length + ", topicMsgSize = " + topicMsgSize.length + ", labels = " + labels.length);
-		
+		console.log("msgSize = " + msgSize.length + ", topicMsgSize = "
+				+ topicMsgSize.length + ", labels = " + labels.length);
+
 		if (msgSize.length > labels.length) {
 			console.log("advance func shift (total data)");
 
@@ -755,20 +795,19 @@ th, td {
 			msgPublishCount.shift();
 		}
 
-		if (topicMsgSize.length == labels.length) {
+		if (topicMsgSize.length > labels.length) {
 			console.log("advance func shift (topicMsgSize)");
 
 			topicMsgSize.shift();
 		}
 
-
 		/* setTimeout(function() {
 			requestAnimationFrame(shiftArrays);
 		}, 1000); */
 	}
-	
-	function calcDuration() {
-		
+
+	function startTimer() {
+		setInterval(printDuration, 1000);
 	}
 
 	function getData() {
@@ -777,11 +816,11 @@ th, td {
 		es.onopen = function(evt) {
 			console.log("connection success!!");
 		}
-		
-		/* es.onerror = function(evt) {
+
+		es.onerror = function(evt) {
 			console.log("occur error!!");
-		} */
-		
+		}
+
 		es.onmessage = function(evt) {
 			console.log("getData func");
 
@@ -799,74 +838,60 @@ th, td {
 
 			Android = parseInt(obj.platformMap.Android);
 			iOS = parseInt(obj.platformMap.iOS);
-			
+
 			shiftArrays();
 
 			if (topics.length != 0) {
 				if (topics.length == 1) {
 					console.log("topic is not null");
-	
+
 					initTopicData();
-	
+
 					curTopic = topics[0];
 					curClients = curTopic.clients;
-	
+
 					topicMsgSize.push(curTopic.accumulatedMsgSize);
 				}
-				
+
 				else {
 					for (var i = 0; i < topics.length; i++) {
-						
+
 						if (topics[i].topic == curTopic.topic) { // fixme topic이 아무것도 없다가 생겼을 경우
-	
+
 							initTopicData();
-	
+
 							curTopic = topics[i];
 							curClients = curTopic.clients;
-	
+
 							topicMsgSize.push(curTopic.accumulatedMsgSize);
-	
+
 							break;
 						}
 					}
 				}
-				
+
 				for (var i = 0; i < curClients.length; i++) {
 					curClientsName.push(curClients[i].name);
-					curClientsMsgSize
-							.push(curClients[i].accumulatedMsgSize);
+					curClientsMsgSize.push(curClients[i].accumulatedMsgSize);
 					curClientsMsgPublishCount
 							.push(curClients[i].msgPublishCount);
 				}
-	
+
 				console.log(curTopic);
 				for (var i = 0; i < components.length; i++) {
-					// console.log(components[i].topic.topic + " " + curTopic.topic);
 					if (components[i].topic.topic == curTopic.topic) {
 						curComponent = components[i];
 						break;
 					}
 				}
-	
+
 				stroke = curComponent.stroke;
 				rect = curComponent.rect;
 				oval = curComponent.oval;
 				text = curComponent.text;
 				image = curComponent.image;
 			}
-			
-			durations = [];
-			for (var i=0; i<topics.length; i++) {
-				
-				var diff = Math.abs(new Date() - new Date(topics[i].startDate.replace(/-/g,'/')));
-				console.log(diff);
-				
-				var duration = msToTime(diff);
-								
-				durations.push(duration);
 
-			}
-			
 			updateCharts();
 			updateTopicTable();
 			updateTotalAmountLabel();
@@ -874,16 +899,15 @@ th, td {
 		}
 
 	}
-	
-	function msToTime(s) {
-		  var ms = s % 1000;
-		  s = (s - ms) / 1000;
-		  var secs = s % 60;
-		  s = (s - secs) / 60;
-		  var mins = s % 60;
-		  var hrs = (s - mins) / 60;
 
-		  return hrs + ':' + mins + ':' + secs;
+	function msToTime(s) {
+		var ms = s % 1000;
+		s = (s - ms) / 1000;
+		var secs = s % 60;
+		s = (s - secs) / 60;
+		var mins = s % 60;
+		var hrs = (s - mins) / 60;
+
+		return hrs + ':' + mins + ':' + secs;
 	}
-	
 </script>
