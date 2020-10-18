@@ -32,9 +32,8 @@ public class Component implements Serializable {
 	private int image;
 	
 	@Id
-	@OneToOne
     @JoinColumn(name = "topic")
-	private Topic topic;
+	private String topic;
 
 	
 	@Override

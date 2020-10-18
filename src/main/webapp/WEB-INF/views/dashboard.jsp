@@ -260,23 +260,17 @@ th, td {
 	function initializeData() {
 		console.log("initialize data func");
 
-		msgSize = JSON.parse('${msgSize}');
-		//console.log(msgSize);
+		msgSize = ${msgSize};
 
-		connections = JSON.parse('${connections}');
-		//console.log(connections);
+		connections = ${connections};
 
-		msgPublishCount = JSON.parse('${msgPublishCount}');
-		//console.log(msgPublishCount);
+		msgPublishCount = ${msgPublishCount};
 
-		senders = JSON.parse('${senders}');
-		//console.log(senders);
+		senders = ${senders};
 
-		topics = JSON.parse('${topics}');
-		//console.log(topics);
+		topics = ${topics};
 
-		components = JSON.parse('${components}');
-		//console.log(components);
+		components = ${components};
 
 		if (topics[0] != null) {
 			console.log("topic is not null");
@@ -297,7 +291,7 @@ th, td {
 			console.log(curTopic);
 			for (var i = 0; i < components.length; i++) {
 				console.log(components[i].topic.topic + " " + curTopic.topic);
-				if (components[i].topic.topic == curTopic.topic) {
+				if (components[i].topic == curTopic.topic) {
 					curComponent = components[i];
 					break;
 				}
@@ -311,8 +305,8 @@ th, td {
 		}
 		console.log(curComponent);
 
-		Android = parseInt(JSON.parse('${Android}'));
-		iOS = parseInt(JSON.parse('${iOS}'));
+		Android = ${Android};
+		iOS = ${iOS};
 	}
 
 	// 사용하는 차트 생성과 차트를 배열에 삽입
@@ -324,7 +318,7 @@ th, td {
 			data : {
 				labels : labels,
 				datasets : [ {
-					label : '',
+					label : 'Accumulated Msg Size',
 					data : msgSize,
 					backgroundColor : 'rgb(0,0,0,0)',
 					borderColor : 'rgb(22,160,232)',
@@ -357,22 +351,11 @@ th, td {
 						gridLines : {
 							display : true,
 							drawBorder : true,
-							drawOnChartArea : false
+							drawOnChartArea : true
 						},
-
 						ticks : {
-							min : 0,
-							max : 40000,
-							callback : function(label, index, labels) {
-								switch (label) {
-								case 10000:
-									return '10000';
-								case 20000:
-									return '20000';
-								case 30000:
-									return '30000';
-								}
-							}
+							beginAtZero: true,
+							maxTicksLimit: 5
 						},
 						scaleLabel : {
 							display : true,
@@ -441,23 +424,11 @@ th, td {
 						gridLines : {
 							display : true,
 							drawBorder : true,
-							drawOnChartArea : false
+							drawOnChartArea : true
 						},
 						ticks : {
-							min : 0,
-							max : 10,
-							callback : function(label, index, labels) {
-								switch (label) {
-								case 2:
-									return '2';
-								case 4:
-									return '4';
-								case 6:
-									return '6';
-								case 8:
-									return '8';
-								}
-							}
+							beginAtZero: true,
+							maxTicksLimit: 5
 						},
 						scaleLabel : {
 							display : true,
@@ -514,23 +485,11 @@ th, td {
 						gridLines : {
 							display : true,
 							drawBorder : true,
-							drawOnChartArea : false
+							drawOnChartArea : true
 						},
 						ticks : {
-							min : 0,
-							max : 100,
-							callback : function(label, index, labels) {
-								switch (label) {
-								case 20:
-									return '20';
-								case 40:
-									return '40';
-								case 60:
-									return '60';
-								case 80:
-									return '80';
-								}
-							}
+							beginAtZero: true,
+							maxTicksLimit: 5
 						},
 						scaleLabel : {
 							display : true,
@@ -583,23 +542,11 @@ th, td {
 						gridLines : {
 							display : true,
 							drawBorder : true,
-							drawOnChartArea : false
+							drawOnChartArea : true
 						},
 						ticks : {
-							min : 0,
-							max : 40,
-							callback : function(label, index, labels) {
-								switch (label) {
-								case 10:
-									return '10';
-								case 20:
-									return '20';
-								case 30:
-									return '30';
-								case 40:
-									return '40';
-								}
-							}
+							beginAtZero: true,
+							maxTicksLimit: 5
 						},
 						scaleLabel : {
 							display : true,
@@ -689,22 +636,12 @@ th, td {
 						gridLines : {
 							display : true,
 							drawBorder : true,
-							drawOnChartArea : false
+							drawOnChartArea : true
 						},
 
 						ticks : {
-							min : 0,
-							max : 40000,
-							callback : function(label, index, labels) {
-								switch (label) {
-								case 10000:
-									return '10000';
-								case 20000:
-									return '20000';
-								case 30000:
-									return '30000';
-								}
-							}
+							beginAtZero: true,
+							maxTicksLimit: 5
 						},
 						scaleLabel : {
 							display : true,
@@ -816,16 +753,12 @@ th, td {
 			connections.shift();
 			senders.shift();
 			msgPublishCount.shift();
-			
-			//updateCharts();
 		}
 
 		if (topicMsgSize.length == labels.length) {
 			console.log("advance func shift (topicMsgSize)");
 
 			topicMsgSize.shift();
-
-			// updateCharts();
 		}
 
 
@@ -922,7 +855,6 @@ th, td {
 				image = curComponent.image;
 			}
 			
-			console.log("calc duration");
 			durations = [];
 			for (var i=0; i<topics.length; i++) {
 				
@@ -930,9 +862,7 @@ th, td {
 				console.log(diff);
 				
 				var duration = msToTime(diff);
-				
-				//console.log(duration);
-				
+								
 				durations.push(duration);
 
 			}
