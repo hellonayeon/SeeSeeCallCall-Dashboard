@@ -6,7 +6,6 @@
 <title>SeeSeeCallCall Dashboard</title>
 
 <script src="<c:url value="/resources/js/Chart.js/Chart.min.js"/>"></script>
-<script src="<c:url value="/resources/js/Chart.js/samples/utils.js"/>"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.16.0/moment-with-locales.min.js"></script>
 	
