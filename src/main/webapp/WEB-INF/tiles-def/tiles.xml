@@ -8,20 +8,20 @@
 <tiles-definitions>
 
   <definition name="base" template="/WEB-INF/tiles/layout.jsp">
-    <put-attribute name="title" value="SeeSeeCallCall Monitoring" />
+    <put-attribute name="title" value="드로잉투게더" />
     <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
     <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
   </definition>
   
   <definition name="dashboard" extends="base">
-    <put-attribute name="title" value="Dashboard" />
+    <put-attribute name="title" value="드로잉투게더" />
     <put-attribute name="body" value="/WEB-INF/views/dashboard.jsp" />
   </definition>
   
-  <definition name="home" extends="base">
+  <!-- <definition name="home" extends="base">
     <put-attribute name="title" value="Home" />
     <put-attribute name="body" value="/WEB-INF/views/home.jsp" />
-  </definition>
+  </definition> -->
 
   
 </tiles-definitions>

@@ -16,31 +16,31 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="component")
+@Table(name = "component")
 public class Component implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private int stroke;
-	
+
 	private int rect;
-	
+
 	private int oval;
-	
+
 	private int text;
-	
+
 	private int image;
-	
+
+	private int erase;
+
 	@Id
-    @JoinColumn(name = "topic")
+	@JoinColumn(name = "topic")
 	private String topic;
 
-	
 	@Override
 	public String toString() {
-		return "Component [stroke=" + stroke + ", rect=" + rect + ", oval=" + oval + ", text=" + text + ", topic="
-				+ topic + "]";
+		return "Component [stroke=" + stroke + ", rect=" + rect + ", oval=" + oval + ", text=" + text + ", image="
+				+ image + ", erase=" + erase + ", topic=" + topic + "]";
 	}
-	
-	
+
 }

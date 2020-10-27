@@ -33,5 +33,23 @@ public class TopicDao {
 
 		return  query.getResultList();
 	}
+	
+	/* 사용중인 토픽 검색 */
+	public List<Topic> getTopicInUse() {
+		Session session = sessionFactory.getCurrentSession();
 
+		Query<Topic> query = session.createQuery("from Topic as topic " + "where not topic.topic like '%(%'", Topic.class);
+
+		return  query.getResultList();
+	}
+
+	/* 사용이 종료된 토픽 검색 '토픽명(종료시간)' */
+	public List<Topic> getTerminatedTopic() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Topic> query = session.createQuery("from Topic as topic " + "where topic.topic like '%(%'", Topic.class);
+
+		return  query.getResultList();
+	}
+	
 }

@@ -53,6 +53,12 @@
 	font-size: 30px;
 }
 
+#page-sub-title {
+	margin-top: 30px; 
+	font-weight: bold;
+	font-size: 30px;
+}
+
 .partition-title {
 	font-weight: bold;
 	font-size: 20px;

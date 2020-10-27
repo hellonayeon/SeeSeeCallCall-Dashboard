@@ -7,7 +7,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12" id="page-title" align="center">
-					DrawTalk Monitoring
+					드로잉투게더 모니터링 대시보드
 				</div>
 			</div>
 		</div>

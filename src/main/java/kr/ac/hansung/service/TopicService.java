@@ -22,4 +22,12 @@ public class TopicService {
 		return topicDao.getTopics();
 	}
 	
+	public List<Topic> getTopicsInUse() {
+		return topicDao.getTopicInUse();
+	}
+	
+	public List<Topic> getTerminatedTopic() {
+		return topicDao.getTerminatedTopic();
+	}
+	
 }
