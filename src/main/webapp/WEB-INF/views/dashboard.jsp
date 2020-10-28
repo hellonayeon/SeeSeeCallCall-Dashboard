@@ -24,7 +24,7 @@ canvas {
 
 #terminated-topic-table-wrapper {
 	overflow-y: auto;
-	height: 330px;
+	height: 300px;
 }
 
 thead th {
@@ -78,10 +78,41 @@ table {
 	margin-top: -20px;
 }
 
-.avg-participant {
+.sub-title-partition {
 	margin-top: 20px;
+}
+
+.accumulated-partition {
+	margin-top: 10px;
+}
+
+.average-partition {
+	margin-top: 20px;
+}
+
+.msg-avg-label {
+	height: 110px;
+}
+
+
+.msg-total-label  {
+	height: 110px;
 
 }
+
+.component-total-label {
+	height: 200px;
+}
+
+.msg-total-partition {
+	margin-top: -340px;
+}
+
+.component-total-partition {
+	margin-top: 20px;
+}
+
+
 </style>
 <div class="partition">
 	<!--  <div class="partition-title"> Total amount of topic figures </div> -->
@@ -190,7 +221,7 @@ table {
 
 <div></div>
 
-
+<div class="sub-title-partition">
 	<div class="container-fluid">
 			<div class="row">
 				<div class="col-12" id="page-sub-title" align="center">
@@ -198,9 +229,9 @@ table {
 				</div>
 			</div>
 		</div>
+</div>
 
-
-<div class="avg-participant">
+<div class="accumulated-partition">
 	<div class="container-wrapper">
 		<div class="container-fluid">
 			<div class="row">
@@ -236,29 +267,30 @@ table {
 			</div>
 		</div>
 	</div>
+</div>
 
-
+<div class="average-partition">
 	<!--  <div class="partition-title"> Each amount of topic figures </div> -->
 	<div class="container-wrapper">
 		<div class="container-fluid">
 			<div class="row">
 			
 				<div class="col-md-2">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background msg-avg-label">
 						<p class="chart-title">평균 메시지 전송량</p>
 						<p><span id="msgSizeAvgLabel"></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background msg-avg-label">
 						<p class="chart-title">평균 메시지 전송 횟수</p>
 						<p><span id="msgPublishCountAvgLabel"></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background msg-avg-label">
 						<p class="chart-title">평균 참가자 수</p>
 						<p><span id="participantAvgLabel"></span></p>
 					</div>
@@ -267,57 +299,54 @@ table {
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background">
 						<p class="chart-title">평균 컴포넌트 개수</p>
-						<canvas id="componentAvgChart" height="110"></canvas>
+						<canvas id="componentAvgChart" height="160"></canvas>
 					</div>
 				</div>
 				
 			</div>
 		</div>
-	</div>
+</div>
 	
-	
+<div class="msg-total-partition">
 	<div class="container-wrapper">
 		<div class="container-fluid">
 			<div class="row">
 			
 				<div class="col-md-2">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background msg-total-label">
 						<p class="chart-title">누적 메시지 전송량</p>
 						<p><span id="msgSizeTotalLabel"></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background msg-total-label">
 						<p class="chart-title">누적 메시지 전송 횟수</p>
 						<p><span id="msgPublishCountTotalLabel"></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background msg-total-label">
 						<p class="chart-title">누적 참가자 수</p>
 						<p><span id="participantTotalLabel"></span></p>
 					</div>
 				</div>
 			
-				<div class="col-md-6">
-					<%-- <div class="col-md-12 rounded-background">
-						<p class="chart-title">평균 컴포넌트 개수</p>
-						<canvas id="componentAvgChart" height="110"></canvas>
-					</div> --%>
-				</div>
 				
 			</div>
 		</div>
 	</div>
-	
+	</div>
+</div>
+
+<div class="component-total-partition">	
 	<div class="container-wrapper">
 		<div class="container-fluid">
 			<div class="row">
 			
 				<div class="col-md-6">
-					<div class="col-md-12 rounded-background">
+					<div class="col-md-12 rounded-background component-total-label">
 						<p class="chart-title">누적 컴포넌트 개수</p>
 						<div class="row">
 						<div class="col-1">
@@ -366,10 +395,8 @@ table {
 			</div>
 		</div>
 	</div>
-	
-	
 </div>
-
+	
 <script>
 
 	var labels = [ '30', '27', '24', '21', '18', '15', '12', '9', '6', '3', '0' ];
