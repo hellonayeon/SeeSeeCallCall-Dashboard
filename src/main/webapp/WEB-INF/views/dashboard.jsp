@@ -83,7 +83,7 @@ table {
 }
 
 .accumulated-partition {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 .average-partition {
@@ -112,6 +112,54 @@ table {
 	margin-top: 20px;
 }
 
+#total-component-img-container {
+	margin-top: 30px;
+}
+
+#total-component-span-container {
+	margin-top: 30px;
+}
+
+.component-image {
+	width: 55px;
+	height: 55px;
+	
+	margin-left: 35px;
+	margin-right: 35px;
+}
+
+.component-span {
+	display: inline-block;
+	float: center;
+
+	width: 100px;
+		
+	margin-left: 10px;
+	margin-right: 15px;
+	
+	font-size: 20px;
+	font-weight: bold;
+	
+	text-align: center;
+}
+
+.component-count-span {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.avg-total-container {	
+	margin-top: 20px;
+	margin-left: 10px;
+}
+
+.avg-total-span {
+	margin-top: 20px;
+	margin-left: 10px;
+	
+	font-size: 25px;
+	font-weight: bold;
+}
 
 </style>
 <div class="partition">
@@ -162,7 +210,8 @@ table {
 			<div class="row">
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background" id="topic-table-wrapper">
-						<p class="chart-title">진행중인 회의방 리스트</p>
+						<p class="chart-title">사용중인 회의방 리스트</p>
+						<div id="topic-table-wrapper">
 						<table id="topicsInUseTable" class="table table-hover">
 							<thead>
 								<tr>
@@ -181,11 +230,12 @@ table {
 								<tr></tr>
 							</tbody>
 						</table>
+						</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background">
-						<p class="chart-title">컴포넌트</p>
+						<p class="chart-title">회의방 컴포넌트</p>
 						<canvas id="componentChart" height="110"></canvas>
 					</div>
 				</div>
@@ -198,19 +248,19 @@ table {
 			<div class="row">
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background topic-msg-size-wrapper">
-						<p class="chart-title">토픽 메시지 크기</p>
+						<p class="chart-title">회의방 메시지 크기</p>
 						<canvas id="topicMsgSizeChart" height="120"></canvas>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div class="col-md-12 rounded-background client-msg-wrapper">
-						<p class="chart-title">클라이언트 메시지 크기</p>
+						<p class="chart-title">참가자 메시지 크기</p>
 						<canvas id="clientMsgSizeChart" height="205"></canvas>
 					</div>
 				</div>
 				<div class="col-md-3">
 					<div class="col-md-12 rounded-background client-msg-wrapper">
-						<p class="chart-title">클라이언트 메시지 전송 횟수</p>
+						<p class="chart-title">참가자 메시지 전송 횟수</p>
 						<canvas id="clientMsgPublishCountChart" height="205"></canvas>
 					</div>
 				</div>
@@ -239,7 +289,7 @@ table {
 					<div class="col-md-12 rounded-background" >
 						<p class="chart-title">종료된 회의방 리스트</p>
 						<div id="terminated-topic-table-wrapper">
-						<table id="terminatedTopicsTable" class="table table-hover">
+						<table id="terminatedTopicsTable" class="table table-striped">
 							<thead>
 								<tr>
 									<th scope="col" style="width: 5%">#</th>
@@ -278,21 +328,21 @@ table {
 				<div class="col-md-2">
 					<div class="col-md-12 rounded-background msg-avg-label">
 						<p class="chart-title">평균 메시지 전송량</p>
-						<p><span id="msgSizeAvgLabel"></span></p>
+						<p class="avg-total-container"><span class="avg-total-span"><span id="msgSizeAvgLabel">0 Byte</span></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="col-md-12 rounded-background msg-avg-label">
 						<p class="chart-title">평균 메시지 전송 횟수</p>
-						<p><span id="msgPublishCountAvgLabel"></span></p>
+						<p class="avg-total-container"><span class="avg-total-span"><span id="msgPublishCountAvgLabel">0</span> <span class="msg-count-span">회</span></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="col-md-12 rounded-background msg-avg-label">
 						<p class="chart-title">평균 참가자 수</p>
-						<p><span id="participantAvgLabel"></span></p>
+						<p class="avg-total-container"><span class="avg-total-span"><span id="participantAvgLabel">0</span> <span class="msg-count-span">명</span></span></p>
 					</div>
 				</div>
 			
@@ -315,21 +365,21 @@ table {
 				<div class="col-md-2">
 					<div class="col-md-12 rounded-background msg-total-label">
 						<p class="chart-title">누적 메시지 전송량</p>
-						<p><span id="msgSizeTotalLabel"></span></p>
+						<p class="avg-total-container"><span class="avg-total-span"><span id="msgSizeTotalLabel">0 Byte</span></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="col-md-12 rounded-background msg-total-label">
 						<p class="chart-title">누적 메시지 전송 횟수</p>
-						<p><span id="msgPublishCountTotalLabel"></span></p>
+						<p class="avg-total-container"><span class="avg-total-span"><span id="msgPublishCountTotalLabel">0</span> <span class="msg-count-span">회</span></span></p>
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="col-md-12 rounded-background msg-total-label">
 						<p class="chart-title">누적 참가자 수</p>
-						<p><span id="participantTotalLabel"></span></p>
+						<p class="avg-total-container"><span class="avg-total-span"><span id="participantTotalLabel">0</span> <span class="msg-count-span">명</span></span></p>
 					</div>
 				</div>
 			
@@ -348,48 +398,27 @@ table {
 				<div class="col-md-6">
 					<div class="col-md-12 rounded-background component-total-label">
 						<p class="chart-title">누적 컴포넌트 개수</p>
-						<div class="row">
-						<div class="col-1">
-							<img src="<c:url value="/resources/images/pen.png"/>" width="30" height="30"> 
-							<span id="strokeTotal"></span>
-						</div>
-						<div class="col-1">
-							<img src="<c:url value="/resources/images/rect.png"/>" 
-								width="30" height="30"><span id="rectTotal"></span>
-						</div>
-						<div class="col-1">
-							<img src="<c:url value="/resources/images/oval.png"/>" width="30" height="30"> 
-							<span id="ovalTotal"></span>
-						</div>
-						<div class="col-1">
-							<img src="<c:url value="/resources/images/text.png"/>" width="30" height="30"> 
-							<span id="textTotal"></span>
-						</div>
-						<div class="col-1">
-							<img src="<c:url value="/resources/images/photo.png"/>" width="30" height="30"> 
-							<span id="imageTotal"></span>
-						</div>
-						<div class="col-1">
-							<img src="<c:url value="/resources/images/eraser.png"/>" width="30" height="30"> 
-							<span id="eraseTotal"></span>
-						</div>
-						</div>
-						<!-- <p>
-						<span id="strokeTotal"></span>
-						<span id="rectTotal"></span>
-						<span id="ovalTotal"></span>
-						<span id="textTotal"></span>
-						<span id="imageTotal"></span>
-						<span id="eraseTotal"></span>
-						</p> -->
+							<div id="total-component-img-container">
+								<img src="<c:url value="/resources/images/pen.png"/>" class="component-image"> 
+								<img src="<c:url value="/resources/images/rect.png"/>" class="component-image">
+								<img src="<c:url value="/resources/images/oval.png"/>" class="component-image"> 
+								<img src="<c:url value="/resources/images/text.png"/>" class="component-image"> 
+								<img src="<c:url value="/resources/images/photo.png"/>" class="component-image">
+								<img src="<c:url value="/resources/images/eraser.png"/>" class="component-image"> 
+							</div>
+							<div id="total-component-span-container">
+								<span class="component-span"><span id="strokeTotal">0</span> <span class="component-count-span">개</span></span>
+								<span class="component-span"><span id="rectTotal">0</span> <span class="component-count-span">개</span></span>
+								<span class="component-span"><span id="ovalTotal">0</span> <span class="component-count-span">개</span></span>
+								<span class="component-span"><span id="textTotal">0</span> <span class="component-count-span">개</span></span>
+								<span class="component-span"><span id="imageTotal">0</span> <span class="component-count-span">개</span></span>
+								<span class="component-span"><span id="eraseTotal">0</span> <span class="component-count-span">개</span></span>
+							</div>
 					</div>
 				</div>
 			
 				<div class="col-md-6">
-					<%-- <div class="col-md-12 rounded-background">
-						<p class="chart-title">평균 컴포넌트 개수</p>
-						<canvas id="componentAvgChart" height="110"></canvas>
-					</div> --%>
+					
 				</div>
 				
 			</div>
@@ -733,7 +762,7 @@ table {
 			data : {
 				labels : labels,
 				datasets : [ {
-					label : '참가자 수',
+					label : '전체 참가자 수',
 					data : connections,
 					backgroundColor : 'rgb(242,93,93,0.8)',
 					borderColor : 'rgb(242,93,93, 0.8)',
@@ -812,6 +841,7 @@ table {
 			data : {
 				labels : labels,
 				datasets : [ {
+					label: "전체 회의방 메시지 전송 횟수",
 					data : msgPublishCount,
 					steppedLine : true,
 					backgroundColor : 'rgb(22,160,232, 0.1)',
@@ -857,6 +887,13 @@ table {
 						}
 					} ]
 				},
+				tooltips : {
+					mode : 'nearest',
+					titleFontSize : 20,
+					backgroundColor : 'rgba(255, 255, 255, 0.8)',
+					titleFontColor : 'rgb(102, 102, 102)',
+					bodyFontColor : 'rgb(102, 102, 102)'
+				},
 				layout : {
 					padding : {
 						left : -5,
@@ -876,7 +913,7 @@ table {
 					data : selectedComponentCount,
 					backgroundColor : [ 'rgb(241,178,235)', 'rgb(164,160,252)',
 							'rgb(255,203,101)', 'rgb(22,160,232)',
-							'rgb(242,93,93)' ]
+							'rgb(242,93,93)', 'rgb(95,227,161)' ]
 				} ]
 			},
 			options : {
@@ -910,9 +947,16 @@ table {
 						},
 						scaleLabel : {
 							display : true,
-							labelString : '개수, 횟수'
+							labelString : '개수'
 						}
 					} ]
+				},
+				tooltips : {
+					mode : 'nearest',
+					titleFontSize : 15,
+					backgroundColor : 'rgba(255, 255, 255, 0.8)',
+					titleFontColor : 'rgb(102, 102, 102)',
+					bodyFontColor : 'rgb(102, 102, 102)'
 				}
 			}
 		});
@@ -923,9 +967,9 @@ table {
 			data : {
 				datasets : [ {
 					data : selectedClientsMsgSize,
-					backgroundColor : [ 'rgb(95,227,161)', 'rgb(22,160,232)',
-							'rgb(241,178,235)', 'rgb(255,203,101)',
-							'rgb(255,203,102)' ]
+					backgroundColor : [ 'rgb(241,178,235)', 'rgb(164,160,252)',
+						'rgb(255,203,101)', 'rgb(22,160,232)',
+						'rgb(242,93,93)', 'rgb(95,227,161)']
 				} ],
 				labels : selectedClientsName
 			},
@@ -935,6 +979,14 @@ table {
 					duration : 1000,
 					easing : 'linear'
 				},
+				tooltips : {
+					mode : 'nearest',
+					titleFontSize : 20,
+					backgroundColor : 'rgba(255, 255, 255, 0.8)',
+					titleFontColor : 'rgb(102, 102, 102)',
+					bodyFontColor : 'rgb(102, 102, 102)'
+				}
+			
 			}
 		});
 
@@ -944,9 +996,9 @@ table {
 			data : {
 				datasets : [ {
 					data : selectedClientsMsgPublishCount,
-					backgroundColor : [ 'rgb(95,227,161)', 'rgb(22,160,232)',
-							'rgb(241,178,235)', 'rgb(255,203,101)',
-							'rgb(255,203,102)' ]
+					backgroundColor : [ 'rgb(241,178,235)', 'rgb(164,160,252)',
+						'rgb(255,203,101)', 'rgb(22,160,232)',
+						'rgb(242,93,93)', 'rgb(95,227,161)']
 				} ],
 				labels : selectedClientsName
 			},
@@ -955,6 +1007,13 @@ table {
 				animation : {
 					duration : 0,
 					easing : 'linear'
+				},
+				tooltips : {
+					mode : 'nearest',
+					titleFontSize : 20,
+					backgroundColor : 'rgba(255, 255, 255, 0.8)',
+					titleFontColor : 'rgb(102, 102, 102)',
+					bodyFontColor : 'rgb(102, 102, 102)'
 				}
 			}
 		});
@@ -965,6 +1024,7 @@ table {
 			data : {
 				labels : labels,
 				datasets : [ {
+					label : "회의방 메시지 전송량",
 					data : topicMsgSize,
 					backgroundColor : 'rgb(0,0,0,0)',
 					borderColor : 'rgb(255,99,132)',
@@ -1016,6 +1076,13 @@ table {
 						top : -5,
 						bottom : 0
 					}
+				},
+				tooltips : {
+					mode : 'nearest',
+					titleFontSize : 20,
+					backgroundColor : 'rgba(255, 255, 255, 0.8)',
+					titleFontColor : 'rgb(102, 102, 102)',
+					bodyFontColor : 'rgb(102, 102, 102)'
 				}
 			}
 		});
@@ -1028,9 +1095,9 @@ table {
 				datasets : [ {
 					data : [ componentAvgMap.stroke, componentAvgMap.rect, componentAvgMap.oval, 
 							componentAvgMap.text, componentAvgMap.image, componentAvgMap.erase ],
-					backgroundColor : [ 'rgb(241,178,235)', 'rgb(164,160,252)',
-							'rgb(255,203,101)', 'rgb(22,160,232)',
-							'rgb(242,93,93)' ]
+					backgroundColor : ['rgb(241,178,235)', 'rgb(164,160,252)',
+						'rgb(255,203,101)', 'rgb(22,160,232)',
+						'rgb(242,93,93)', 'rgb(95,227,161)' ]
 				} ]
 			},
 			options : {
@@ -1064,9 +1131,16 @@ table {
 						},
 						scaleLabel : {
 							display : true,
-							labelString : '개수, 횟수'
+							labelString : '개수'
 						}
 					} ]
+				},
+				tooltips : {
+					mode : 'nearest',
+					titleFontSize : 15,
+					backgroundColor : 'rgba(255, 255, 255, 0.8)',
+					titleFontColor : 'rgb(102, 102, 102)',
+					bodyFontColor : 'rgb(102, 102, 102)'
 				}
 			}
 		});
