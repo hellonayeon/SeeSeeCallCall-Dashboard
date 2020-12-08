@@ -5,7 +5,9 @@ This application is Copyright 2020 The Project DrawingTogether Authors. All righ
 The following sets forth attribution notices for third party software that may be contained in this application.
 
 <br/>
----
+
+--------------------
+
 
 **spring-webmvc**
 
@@ -136,8 +138,10 @@ Copyright (c) 2011-2020 The Bootstrap Authors
 MIT License
 
 <br/>
----
-###Apache License - Version 2.0###
+
+----------
+
+### Apache License - Version 2.0
 ``````````
                                  Apache License
                            Version 2.0, January 2004
@@ -493,9 +497,10 @@ NO WARRANTY
 
 END OF TERMS AND CONDITIONS
 ``````````
+
 <br/>
 
-### General Public License - v 2.0 ###
+### General Public License - v 2.0
 
 ``````````
 The GNU General Public License (GPL)
@@ -625,8 +630,9 @@ Ty Coon, President of Vice
 This General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Library General Public License instead of this License.
 
 ``````````
-<br/>
-###MIT License###
+
+### MIT License ###
+
 ``````````
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
