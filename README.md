@@ -36,3 +36,23 @@
 
 <br>
 
+## 사용된 라이브러리
+| **라이브러리** | **버전** |	**라이선스** |
+|:------------|:------|:---------|
+| spring-framework | 5.1.5 RELEASE | Apache 2.0 |
+| spring-context | 5.1.5 RELEASE | Apache 2.0 |
+| logback-classic	| 1.2.3	| EPL 1.0 GPL 2.1 |
+| servlet-api |	3.0.1	| CDDL GPL 2.0 |
+| jsp-api	| 2.1	| CDDL GPL 2.0 |
+| jstl | 1.2	| CDDL GPL 2.0 |
+| spring-jdbc	| 5.1.5 RELEASE	| Apache 2.0 |
+|spring-orm |	5.1.5 RELEASE |	Apache 2.0 |
+| hibernate-core | 5.4.10 Final |	LGPL 2.1 |
+| commons-dbcp2	| 2.5.0	| Apache 2.0 |
+| mysql-connector-java | 8.0.17 |	GPL 2.0 |
+| tiles-extras | 3.0.8 | Apache 2.0 |
+| hibernate-validator	| 6.1.2 Final	| Apache 2.0 |
+| lombok	| 1.18.8	| MIT |
+| gson	| 2.8.5	| Apache 2.0 |
+| chartjs	| 2.9.3 |	MIT |
+| bootstrap	| 4.4.1 | MIT |
