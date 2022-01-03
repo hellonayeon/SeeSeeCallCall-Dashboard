@@ -3,3 +3,11 @@
 
 ### MacOS Generated Files
 .DS_Store
+
+
+### Project Files
+.settings
+target
+.classpath
+.project
+.springBeans
